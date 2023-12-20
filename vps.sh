@@ -56,14 +56,26 @@ echo "User: user"
 echo "Password: 123456"
 echo "VM can't connect? Restart Cloud Shell then Re-run the script."
 
-seq 1 31557600 | while read i; do echo -en "\r Running .     
-$i s /31557600 s";sleep 0.1;echo -en "\r Running ..    
-$i s /31557600 s";sleep 0.1;echo -en "\r Running ...   
-$i s /31557600 s";sleep 0.1;echo -en "\r Running ....  
-$i s /31557600 s";sleep 0.1;echo -en "\r Running ..... 
-$i s /31557600 s";sleep 0.1;echo -en "\r Running     . 
-$i s /31557600 s";sleep 0.1;echo -en "\r Running  .... 
-$i s /31557600 s";sleep 0.1;echo -en "\r Running   ... 
-$i s /31557600 s";sleep 0.1;echo -en "\r Running    .. 
-$i s /31557600 s";sleep 0.1;echo -en "\r Running     . 
-$i s /31557600 s";sleep 0.1; done
+# Display a countdown while waiting
+seq 1 31557600 | while read i; do
+    echo -en "\r Running .     $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running ..    $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running ...   $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running ....  $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running ..... $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running     . $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running  .... $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running   ... $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running    .. $i s /31557600 s"
+    sleep 0.1
+    echo -en "\r Running     . $i s /31557600 s"
+    sleep 0.1
+done
