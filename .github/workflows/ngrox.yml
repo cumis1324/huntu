@@ -36,7 +36,7 @@ jobs:
             -e USER=user \
             -e PASSWORD=123456 \
             -e HTTP_PASSWORD=123456 \
-            fredblitem/vnc-desktop-lxde
+            dorowu/ubuntu-desktop-lxde-vnc
 
       - name: Start Ngrok & Print Access Link
         run: |
