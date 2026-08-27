@@ -31,22 +31,20 @@ jobs:
           docker run --rm -d \
             --name novnc-desktop \
             --shm-size=2g \
-            --cap-add=SYS_PTRACE \
-            -p 6080:6080 \
-            -e USER=user \
-            -e PASSWORD=123456 \
+            -p 6080:80 \
             -e HTTP_PASSWORD=123456 \
+            -e VNC_PASSWORD=123456 \
             dorowu/ubuntu-desktop-lxde-vnc
+          sleep 5
 
       - name: Start Ngrok & Print Access Link
         run: |
-          ./ngrok http 6080 --region "${{ github.event.inputs.region }}" > /dev/null 2>&1 &
+          ./ngrok http 6080 --host-header=rewrite --region "${{ github.event.inputs.region }}" > /dev/null 2>&1 &
           sleep 5
           echo "=================================================="
           echo "Buka URL ini di browser:"
           curl -s http://127.0.0.1:4040/api/tunnels | grep -o '"public_url":"https://[^"]*' | cut -d'"' -f4
-          echo "User     : user"
-          echo "Password : 123456"
+          echo "Password Web/VNC : 123456"
           echo "=================================================="
 
       - name: Keep Alive (Looping 6 Jam)
