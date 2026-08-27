@@ -1,0 +1,57 @@
+name: Ubuntu noVNC Desktop
+
+on:
+  workflow_dispatch:
+    inputs:
+      ngrok_token:
+        description: 'Ngrok Authtoken'
+        required: true
+        type: string
+      region:
+        description: 'Ngrok Region (ap, us, eu, in, jp, sa, au)'
+        required: false
+        default: 'ap'
+        type: string
+
+jobs:
+  run-desktop:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+
+    steps:
+      - name: Setup Ngrok
+        run: |
+          wget -q https://bin.equinox.io/c/bNyj1mQVY4c/ngrok-v3-stable-linux-amd64.tgz
+          tar -xzf ngrok-v3-stable-linux-amd64.tgz
+          chmod +x ngrok
+          ./ngrok authtoken "${{ github.event.inputs.ngrok_token }}"
+
+      - name: Jalankan Container noVNC Desktop
+        run: |
+          docker run --rm -d \
+            --name novnc-desktop \
+            --shm-size=2g \
+            --cap-add=SYS_PTRACE \
+            -p 6080:6080 \
+            -e USER=user \
+            -e PASSWORD=123456 \
+            -e HTTP_PASSWORD=123456 \
+            fredblitem/vnc-desktop-lxde
+
+      - name: Start Ngrok & Print Access Link
+        run: |
+          ./ngrok http 6080 --region "${{ github.event.inputs.region }}" > /dev/null 2>&1 &
+          sleep 5
+          echo "=================================================="
+          echo "Buka URL ini di browser:"
+          curl -s http://127.0.0.1:4040/api/tunnels | grep -o '"public_url":"https://[^"]*' | cut -d'"' -f4
+          echo "User     : user"
+          echo "Password : 123456"
+          echo "=================================================="
+
+      - name: Keep Alive (Looping 6 Jam)
+        run: |
+          for i in {1..360}; do
+            echo "Session aktif... $i menit"
+            sleep 60
+          done
