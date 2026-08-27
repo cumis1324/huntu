@@ -48,7 +48,7 @@ docker run --rm -d --network host --privileged --name novnc-desktop \
     -e HTTP_PASSWORD=123456 \
     --cap-add=SYS_PTRACE \
     --shm-size=1g \
-    fredblitem/vnc-desktop-lxde
+    dorowu/ubuntu-desktop-lxde-vnc
 
 clear
 echo "=========================================="
